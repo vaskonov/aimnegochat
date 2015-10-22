@@ -1,0 +1,45 @@
+extends shared2
+
+block content
+ div.container
+   br 
+   br
+   h1 Game List (#{gametype.split("_")[1]}) 
+  
+   br
+   form.scrol(action="/activeGames", method="post")
+     table(class="table table-striped table-bordered")
+       tr
+         th Game Id
+         th Game Type
+         th Start Time
+         th End Time
+         th Ended In
+         th country
+         th partnerType
+         th agent role
+         th Active
+         th Delete
+       - if (gamesList !== undefined) 
+         each games in gamesList
+
+          if (games.gametype)
+            if (games.gametype.indexOf(domain) != -1)
+              if (( (gamest.hasOwnProperty(games.gametype) && games.partnerType != "H vs H")  || (gametype.split("_")[0] == "H vs H" && games.partnerType == "H vs H")  ) && games.country == (gametype.split("_")[1]).toLowerCase())
+                tr
+                  td
+                   a(href='/#{gametype},#{games.PartitionKey}/gameReport') #{games.PartitionKey}
+                  td #{games.gametype}
+                  td #{games.startTime}
+                  td #{games.endTime}
+                  td #{games.endedIn}
+                  td #{games.country}
+                  td #{games.partnerType}
+                  td #{games.agentRoleType}
+                  td
+                    input(type="hidden", name="#{games.RowKey}", value="#{games.RowKey}")
+                    input(type="checkbox", name="active", value="#{!games.active}", checked=games.active)
+                  td 
+                     a(href= "/#{gametype},#{games.RowKey},#{games.PartitionKey},#{domain}/deleteGame") deleteMe 
+
+                      //if (true)//gamest.hasOwnProperty(games.gametype))// in gamest)// /*|| games.gametype == gametype.split("_")[0]) && games.country == (gametype.split("_")[1]).toLowerCase()*/)

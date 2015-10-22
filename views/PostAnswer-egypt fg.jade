@@ -1,0 +1,237 @@
+extends layout
+block title
+  title Post-Game Feedback Questionnaire
+block body
+  style
+    #explain{
+      font-weight:bold;
+    }
+    #sideMassage{
+      color:red;
+    }
+  script
+    function validate(){
+      if  (document.getElementById("gender").value == ""){
+        document.getElementById("sideMassage").innerHTML = "You must insert your gender.";
+        document.getElementById("sideMassage").style.display = "block";
+        return false;
+      }
+      if  (document.getElementById("age").value == ""){
+        document.getElementById("sideMassage").innerHTML = "You must insert your age.";
+        document.getElementById("sideMassage").style.display = "block";
+        return false;
+      }
+      if  (document.getElementById("nationality").value == ""){
+        document.getElementById("sideMassage").innerHTML = "You must insert your nationality.";
+        document.getElementById("sideMassage").style.display = "block";
+        return false;
+      }
+      if  (document.getElementById("area").value == ""){
+        document.getElementById("sideMassage").innerHTML = "You must insert your area.";
+        document.getElementById("sideMassage").style.display = "block";
+        return false;
+      }
+      if  (document.getElementById("status").value == ""){
+        document.getElementById("sideMassage").innerHTML = "You must insert your status.";
+        document.getElementById("sideMassage").style.display = "block";
+        return false;
+      }
+      if  (document.getElementById("economic").value == ""){
+        document.getElementById("sideMassage").innerHTML = "You must insert your economic.";
+        document.getElementById("sideMassage").style.display = "block";
+        return false;
+      } 
+      if  (document.getElementById("major").value == ""){
+        document.getElementById("sideMassage").innerHTML = "You must insert your major.";
+        document.getElementById("sideMassage").style.display = "block";
+        return false;
+      }
+      if  (document.getElementById("year").value == ""){
+
+        document.getElementById("sideMassage").innerHTML = "You must insert your year in school.";
+        document.getElementById("sideMassage").style.display = "block";
+        return false;
+      }     
+      else{
+        return true;
+      }
+    }
+    $(function() {
+
+      $("#sideMassage").hide();
+      
+      $("select#part1").change(function() {
+        var test = true;
+        $('.part1').each(function(i, obj) {
+            if(obj.childNodes[3].children[0].value == ""){
+            test = false;
+              $('#sideMassage').show();
+              $('.part1')[6].childNodes[3].children[0].value = "";
+            }
+        });
+        if(test){
+          $(".part1").hide();
+          $(".part2").show();
+          $("#sideMassage").hide();
+        }
+      });
+
+      $("select#part2").change(function() {
+        var test = true;
+        $('.part2').each(function(i, obj) {
+            if(obj.childNodes[3].children[0].value == ""){
+            test = false;
+              $('#sideMassage').show();
+              $('.part2')[8].childNodes[3].children[0].value = "";
+            }
+        });
+        if(test){
+          $(".part2").hide();
+          $(".part3").show();
+          $("#sideMassage").hide();
+        }
+      });
+
+      $("select#part3").change(function() {
+        var test = true;
+        $('.part3').each(function(i, obj) {
+            if(obj.childNodes[3].children[0].value == ""){
+            test = false;
+              $('#sideMassage').show();
+              $('.part3')[5].childNodes[3].children[0].value = "";
+            }
+        });
+        if(test){
+          $(".part3").hide();
+          $(".part4").show();
+          $("#sideMassage").hide();
+        }
+      });
+
+      $("select#part4").change(function() {
+        var test = true;
+        $('.part4').each(function(i, obj) {
+            if(obj.childNodes[3].children[0].value == ""){
+            test = false;
+              $('#sideMassage').show();
+              $('.part4')[13].childNodes[3].children[0].value = "";
+            }
+        });
+        if(test){
+          $(".part4").hide();
+          $("#values").hide();
+          $(".part5").show();
+          $("#sideMassage").hide();
+        }
+      });
+
+      $("select#part5").change(function() {
+        var test = true;
+        $('.part5').each(function(i, obj) {
+            if(obj.childNodes[3].children[0].value == ""){
+            test = false;
+              $('#sideMassage').show();
+              $('.part5')[2].childNodes[3].children[0].value = "";
+            }
+        });
+        if(test){
+          $(".part5").hide();
+          $("#values").show();
+          $("#explain").text("To what extend do you belibe that...");
+          $("#values").text("(1 - Not at all ... 4 - Somewhat ... 7 - Very much)");
+          $("#explain").show();
+          $(".part6").show();
+          $("#sideMassage").hide();
+        }
+      });
+
+      $("select#part6").change(function() {
+        var test = true;
+        $('.part6').each(function(i, obj) {
+            if(obj.childNodes[3].children[0].value == ""){
+            test = false;
+              $('#sideMassage').show();
+              $('.part6')[17].childNodes[3].children[0].value = "";
+            }
+        });
+        if(test){
+          $(".part6").hide();
+          $("#values").hide();
+          $(".end").show();
+          $(".part7").show();
+          $("#explain").hide();
+          $("#sideMassage").text("");
+        }
+      });
+
+    });
+  div#analysisContainer
+    form#questForm(action="/addanswer",method="post", onsubmit="return validate();")
+      h1 Post-negotiation questionnaire
+      p We would appreciate your answers to the following:
+
+      input(type="hidden", name="next_action",  value="#{next_action}")
+
+      p <b>Instructions:</b> Please indicate your answers to the following questions along the scale provided.
+      p#explain
+      p#values (1 - Not at all ... 4 - Moderately ... 7 - Extremely)
+      table
+
+        tr.part7
+          td.left1 What is your gender?
+          td.field
+            select#gender(name='item[gender]')
+              option(value='') -- select --
+              for v in ["Male", "Female"]
+                option(value='#{v}') #{v}
+        tr.part7
+          td.left What is your age?
+          td.field
+            textarea#age(name='item[age]',rows='2',cols='30')
+              
+        tr.part7
+           td.left What is your nationality?  
+           td.field
+            textarea#nationality(name='item[nationality]',rows='2',cols='30')
+        tr.part7
+           td.left Did you grow up in a mostly Urban or Rural area? 
+           td.field
+            select#area(name='item[area]')
+              option(value='') -- select --
+              for v in ["Urban", "Rural"]
+                option(value='#{v}') #{v}
+        tr.part7
+           td.left What is your marital status?
+           td.field
+            select#status(name='item[status]')
+              option(value='') -- select --
+              for v in ["Single", "Engaged", "Married",  "Separated",  "Divorced", "Widowed"]
+                option(value='#{v}') #{v}
+        tr.part7
+           td.left In your opinion, what socio-economic class do you belong to?
+           td.field
+            select#economic(name='item[economic]')
+              option(value='') -- select --
+              
+              option(value='1') Upper upper (e.g., rich, influential, highly educated)
+              option(value='2') Lower upper (e.g., professionals, such as physicians, lawyers; owner of a major business)
+              option(value='3') Upper middle (e.g., professionals, such as teachers, social workers; owner of a good business; owner of a large farm)
+              option(value='4') Lower middle (e.g., clerical, small entrepreneurs; farmer)
+              option(value='5') Upper lower (e.g., skilled worker, small farmer)
+              option(value='6') Lower lower (e.g., unskilled, unemployed)
+        tr.part7
+          td.left What is your major? 
+          td.field
+            textarea#major(name='item[major]',rows='2',cols='30')
+        tr.part7
+          td.left What is your year in school? 
+          td.field
+            textarea#year(name='item[year]',rows='2',cols='30')
+
+        tr.end
+           td
+           td.left
+             input(type="submit", class="button", value="Continue")
+
+      p#sideMassage You MUST answer all the questions!
+      h1.end Thank you for your time.

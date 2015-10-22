@@ -1,0 +1,655 @@
+extends layout
+block title
+  title Post-Game Feedback Questionnaire
+block body
+  style
+    #explain{
+      font-weight:bold;
+    }
+    #sideMassage{
+      color:red;
+    }
+  script
+    function validate(){
+      if  (document.getElementById("gender").value == ""){
+        document.getElementById("sideMassage").innerHTML = "You must insert your gender.";
+        document.getElementById("sideMassage").style.display = "block";
+        return false;
+      }
+      if  (document.getElementById("age").value == ""){
+        document.getElementById("sideMassage").innerHTML = "You must insert your age.";
+        document.getElementById("sideMassage").style.display = "block";
+        return false;
+      }
+      if  (document.getElementById("nationality").value == ""){
+        document.getElementById("sideMassage").innerHTML = "You must insert your nationality.";
+        document.getElementById("sideMassage").style.display = "block";
+        return false;
+      }
+      if  (document.getElementById("area").value == ""){
+        document.getElementById("sideMassage").innerHTML = "You must insert your area.";
+        document.getElementById("sideMassage").style.display = "block";
+        return false;
+      }
+      if  (document.getElementById("status").value == ""){
+        document.getElementById("sideMassage").innerHTML = "You must insert your status.";
+        document.getElementById("sideMassage").style.display = "block";
+        return false;
+      }
+      if  (document.getElementById("economic").value == ""){
+        document.getElementById("sideMassage").innerHTML = "You must insert your economic.";
+        document.getElementById("sideMassage").style.display = "block";
+        return false;
+      } 
+      if  (document.getElementById("major").value == ""){
+        document.getElementById("sideMassage").innerHTML = "You must insert your major.";
+        document.getElementById("sideMassage").style.display = "block";
+        return false;
+      }
+      if  (document.getElementById("year").value == ""){
+
+        document.getElementById("sideMassage").innerHTML = "You must insert your year in school.";
+        document.getElementById("sideMassage").style.display = "block";
+        return false;
+      }     
+      else{
+        return true;
+      }
+    }
+    $(function() {
+      $(".part2").hide();
+      $(".part3").hide();
+      $(".part4").hide();
+      $(".part5").hide();
+      $(".part6").hide();
+      $(".part7").hide();
+      $(".end").hide();
+      $("#sideMassage").hide();
+      
+      $("select#part1").change(function() {
+        var test = true;
+        $('.part1').each(function(i, obj) {
+            if(obj.childNodes[3].children[0].value == ""){
+            test = false;
+              $('#sideMassage').show();
+              $('.part1')[6].childNodes[3].children[0].value = "";
+            }
+        });
+        if(test){
+          $(".part1").hide();
+          $(".part2").show();
+          $("#sideMassage").hide();
+        }
+      });
+
+      $("select#part2").change(function() {
+        var test = true;
+        $('.part2').each(function(i, obj) {
+            if(obj.childNodes[3].children[0].value == ""){
+            test = false;
+              $('#sideMassage').show();
+              $('.part2')[8].childNodes[3].children[0].value = "";
+            }
+        });
+        if(test){
+          $(".part2").hide();
+          $(".part3").show();
+          $("#sideMassage").hide();
+        }
+      });
+
+      $("select#part3").change(function() {
+        var test = true;
+        $('.part3').each(function(i, obj) {
+            if(obj.childNodes[3].children[0].value == ""){
+            test = false;
+              $('#sideMassage').show();
+              $('.part3')[5].childNodes[3].children[0].value = "";
+            }
+        });
+        if(test){
+          $(".part3").hide();
+          $(".part4").show();
+          $("#sideMassage").hide();
+        }
+      });
+
+      $("select#part4").change(function() {
+        var test = true;
+        $('.part4').each(function(i, obj) {
+            if(obj.childNodes[3].children[0].value == ""){
+            test = false;
+              $('#sideMassage').show();
+              $('.part4')[13].childNodes[3].children[0].value = "";
+            }
+        });
+        if(test){
+          $(".part4").hide();
+          $("#values").hide();
+          $(".part5").show();
+          $("#sideMassage").hide();
+        }
+      });
+
+      $("select#part5").change(function() {
+        var test = true;
+        $('.part5').each(function(i, obj) {
+            if(obj.childNodes[3].children[0].value == ""){
+            test = false;
+              $('#sideMassage').show();
+              $('.part5')[2].childNodes[3].children[0].value = "";
+            }
+        });
+        if(test){
+          $(".part5").hide();
+          $("#values").show();
+          $("#explain").text("To what extend do you belibe that...");
+          $("#values").text("(1 - Not at all ... 4 - Somewhat ... 7 - Very much)");
+          $("#explain").show();
+          $(".part6").show();
+          $("#sideMassage").hide();
+        }
+      });
+
+      $("select#part6").change(function() {
+        var test = true;
+        $('.part6').each(function(i, obj) {
+            if(obj.childNodes[3].children[0].value == ""){
+            test = false;
+              $('#sideMassage').show();
+              $('.part6')[17].childNodes[3].children[0].value = "";
+            }
+        });
+        if(test){
+          $(".part6").hide();
+          $("#values").hide();
+          $(".end").show();
+          $(".part7").show();
+          $("#explain").hide();
+          $("#sideMassage").text("");
+        }
+      });
+
+    });
+  div#analysisContainer
+    form#questForm(action="/addanswer",method="post", onsubmit="return validate();")
+      h1 Post-negotiation questionnaire
+      p We would appreciate your answers to the following:
+
+      input(type="hidden", name="next_action",  value="#{next_action}")
+
+      p <b>Instructions:</b> Please indicate your answers to the following questions along the scale provided.
+      p#explain
+      p#values (1 - Not at all ... 4 - Moderately ... 7 - Extremely)
+      table
+        tr.part1
+          td.left How satisfied are you with your own outcome—i.e., the extent to which the terms of your exchanges (or lack of exchanges) benefit you?
+          td.field
+            select(name='item[a1]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part1
+          td.left How satisfied are you with the balance between your own outcome and the other participant’s outcome?
+          td.field
+            select(name='item[a2]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part1
+          td.left How cooperative do you think you were in the game?
+          td.field
+            select(name='item[a3]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part1
+           td.left How satisfied are you with the ease (or difficulty) of reaching an agreement?
+           td.field
+            select(name='item[a4]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part1
+           td.left Did you “lose face” (i.e., damage your sense of pride) in the game?
+           td.field
+            select(name='item[a5]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part1
+           td.left Would you characterize the outcome of this negotiation as fair? 
+           td.field
+            select(name='item[a6]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part1
+           td.left How satisfied are you with your relationship with the other participant as a result of this game?
+           td.field
+            select#part1(name='item[a7]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part2
+          td.left Do you think the other participant understood your concerns?
+          td.field
+            select(name='item[a8]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part2
+          td.left Did the other participant consider your wishes, opinions, or needs? 
+          td.field
+            select(name='item[a9]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part2
+          td.left Did the other participant make you feel respected? 
+          td.field
+            select(name='item[a10]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part2
+           td.left Did the game make you trust the other participant? 
+           td.field
+            select(name='item[a11]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part2
+           td.left Did the game build a good foundation for a future relationship with the other participant?
+           td.field
+            select(name='item[a12]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part2
+           td.left How much did you concede in the negotiation?
+           td.field
+            select(name='item[a13]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part2
+           td.left Do you think the terms of your exchanges would be considered fair by an objective third party?
+           td.field
+            select(name='item[a14]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part2
+          td.left Did you feel like you forfeited or “lost” in this game?
+          td.field
+            select(name='item[a15]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part2
+          td.leftDid you behave according to your principles and values?
+          td.field
+            select#part2(name='item[a16]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part3
+          td.left Did this game positively or negatively impact how competent you feel as a negotiator? 
+          td.field
+            select(name='item[a17]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part3
+           td.left Did this game positively or negatively impact your self-image or your impression of yourself?
+           td.field
+            select(name='item[a18]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part3
+           td.left What kind of “overall” impression did the other participant make on you?
+           td.field
+            select(name='item[a19]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part3
+           td.left How did the other person’s behavior impact your behavior? 
+           td.field
+            select(name='item[a20]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part3
+           td.left Did this interaction positive or negatively impact your honor?
+           td.field
+            select(name='item[a21]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part3
+          td.left Did this interaction positively or negatively impact your reputation?
+          td.field
+            select#part3(name='item[a22]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part4
+          td.left1 To what extent do you think the other participant was <b>warm</b>?
+          td.field
+            select(name='item[b1]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part4
+          td.left To what extent do you think the other participant was <b>nice</b>?
+          td.field
+            select(name='item[b2]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part4
+           td.left To what extent do you think the other participant was <b>friendly<b/>?
+           td.field
+            select(name='item[b3]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part4
+           td.left To what extent do you think the other participant was <b>sincere</b>?
+           td.field
+            select(name='item[b4]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part4
+           td.left To what extent do you think the other participant was <b>competent</b> in the negotiation?
+           td.field
+            select(name='item[b5]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part4
+           td.left To what extent do you think the other participant was <b>confident</b> in the negotiation?
+           td.field
+            select(name='item[b6]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part4
+          td.left To what extent do you think the other participant was <b>skillful</b> in the negotiation?
+          td.field
+            select(name='item[b7]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part4
+          td.left To what extent do you think the other participant was <b>able</b> in the negotiation?
+          td.field
+            select(name='item[b8]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part4
+          td.left To what extent did you think the other participant was <b>powerful</b> in the negotiation?
+          td.field
+            select(name='item[b9]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part4
+           td.left To what extent did you think the other participant was <b>strong</b> in the negotiation?
+           td.field
+            select(name='item[b10]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part4
+           td.left To what extent did you think the other participant was <b>vulnerable</b> in the negotiation?
+           td.field
+            select(name='item[b11]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part4
+           td.left To what extent did you think the other participant <b>had good morals</b> in the negotiation?
+           td.field
+            select(name='item[b12]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part4
+           td.left To what extent did you think the other participant was <b>ethical</b> in the negotiation?
+           td.field
+            select(name='item[b13]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part4
+           td.left To what extent did you think the other participant was <b>respectable</b> in the negotiation?
+           td.field
+            select#part4(name='item[b14]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+
+        tr.part5
+           td.left Did you come to agreement today?
+           td.field
+            select(name='item[c1]')
+              option(value='') -- select --
+              for v in ["yes", "no"]
+                option(value='#{v}') #{v}
+        tr
+          td <br>
+        tr.part5
+           td.left  this was a real negotiation, how likely would it be that this agreement would be carried out? 
+                    |<br>
+                    |(1 - Extremely unlikely ... 4 - Somewhat ... 7 - Very likely)
+                    |<br>
+           td.field
+            select(name='item[c2]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr
+          td <br>
+        tr.part5
+           td.left If this was a real negotiation, to what extent would you personally ensure that the agreement is implemented?
+                  |<br>
+                  |(1 - Not at all ... 4 - Somewhat ... 7 - Very much)
+                  |<br>
+           td.field
+            select#part5(name='item[c3]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+
+        tr.part6
+          td.left1 People should make decisions based on their own opinions and not based on what others think
+          td.field
+            select(name='item[d1]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part6
+          td.left People should NOT care what others around them thin
+          td.field
+            select(name='item[d2]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part6
+           td.left How much a person respects himself is far more important than how much others respect him
+           td.field
+            select(name='item[d3]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part6
+           td.left People should stand up for what they believe in even when others disagree
+           td.field
+            select(name='item[d4]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part6
+           td.left People should be true to themselves regardless of what others think
+           td.field
+            select(name='item[d5]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part6
+           td.left People should speak their mind
+           td.field
+            select(name='item[d6]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part6
+          td.left It is important to maintain harmony within one’s group
+          td.field
+            select(name='item[d7]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part6
+          td.left People should be very humble to maintain good relationships
+          td.field
+            select(name='item[d8]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part6
+          td.left People should minimize conflict in social relationships at all costs
+          td.field
+            select(name='item[d9]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part6
+           td.left People should be extremely careful not to embarrass other people
+           td.field
+            select(name='item[d10]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part6
+           td.left People should never criticize others in public
+           td.field
+            select(name='item[d11]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part6
+           td.left People should control their behavior in front of others
+           td.field
+            select(name='item[d12]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part6
+           td.left Men need to protect their women’s reputation at all costs
+           td.field
+            select(name='item[d13]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part6
+           td.left People must always be ready to defend their honor
+           td.field
+            select(name='item[d14]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+
+        tr.part6
+           td.left If a person gets insulted and they don’t respond, he or she will look weak
+           td.field
+            select(name='item[d15]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part6
+           td.left You must punish people who insult you
+           td.field
+            select(name='item[d16]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part6
+           td.left It is important to promote oneself to others
+           td.field
+            select(name='item[d17]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+        tr.part6
+           td.left People always need to show off their power in front of their competitors
+           td.field
+            select#part6(name='item[d18]')
+              option(value='') -- select --
+              for v in [1, 2, 3, 4, 5, 6, 7]
+                option(value='#{v}') #{v}
+
+        tr.part7
+          td.left1 What is your gender?
+          td.field
+            select#gender(name='item[gender]')
+              option(value='') -- select --
+              for v in ["Male", "Female"]
+                option(value='#{v}') #{v}
+        tr.part7
+          td.left What is your age?
+          td.field
+            textarea#age(name='item[age]',rows='2',cols='30')
+              
+        tr.part7
+           td.left What is your nationality?  
+           td.field
+            textarea#nationality(name='item[nationality]',rows='2',cols='30')
+        tr.part7
+           td.left Did you grow up in a mostly Urban or Rural area? 
+           td.field
+            select#area(name='item[area]')
+              option(value='') -- select --
+              for v in ["Urban", "Rural"]
+                option(value='#{v}') #{v}
+        tr.part7
+           td.left What is your marital status?
+           td.field
+            select#status(name='item[status]')
+              option(value='') -- select --
+              for v in ["Single", "Engaged", "Married",  "Separated",  "Divorced", "Widowed"]
+                option(value='#{v}') #{v}
+        tr.part7
+           td.left In your opinion, what socio-economic class do you belong to?
+           td.field
+            select#economic(name='item[economic]')
+              option(value='') -- select --
+              
+              option(value='1') Upper upper (e.g., rich, influential, highly educated)
+              option(value='2') Lower upper (e.g., professionals, such as physicians, lawyers; owner of a major business)
+              option(value='3') Upper middle (e.g., professionals, such as teachers, social workers; owner of a good business; owner of a large farm)
+              option(value='4') Lower middle (e.g., clerical, small entrepreneurs; farmer)
+              option(value='5') Upper lower (e.g., skilled worker, small farmer)
+              option(value='6') Lower lower (e.g., unskilled, unemployed)
+        tr.part7
+          td.left What is your major? 
+          td.field
+            textarea#major(name='item[major]',rows='2',cols='30')
+        tr.part7
+          td.left What is your year in school? 
+          td.field
+            textarea#year(name='item[year]',rows='2',cols='30')
+
+        tr.end
+           td
+           td.left
+             input(type="submit", class="button", value="Continue")
+
+      p#sideMassage You MUST answer all the questions!
+      h1.end Thank you for your time.

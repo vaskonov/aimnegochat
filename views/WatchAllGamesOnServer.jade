@@ -1,0 +1,52 @@
+//- required variables: 
+//-   games - an array of Game objects.
+//-   timeToString - a function for converting time in seconds to string.
+extends layout
+block body
+ h1 #{gametype} server: #{games.length} active games 
+ table.gamedata
+  tr
+   th game id
+   th players
+   th started at
+   th ended at
+   if (show_unverified_games)
+    th roles missing
+    th remaining time
+   th final result
+  each game, index in games
+   if (show_unverified_games || !game.unverified) 
+    tr
+     td #{game.gametype} #{game.gameid}
+      div.center
+       a(href='/LogToXml/actions_#{game.gameid}') Log
+       if (show_unverified_games)
+        | &nbsp;&nbsp;
+        a(href='/#{game.gametype}/watchgame/#{game.gameid}') Watch
+        | &nbsp;&nbsp;
+        | #{game.unverified? 'unverified': 'verified'}
+     td 
+      ul
+       if (game.mapRoleToUserid)
+        each userid, role in game.mapRoleToUserid
+         li <b>#{role}</b> is player 
+          a(href='/LogToXml/user_#{userid}') #{userid} 
+     td #{game.startTime? game.startTime.toString().replace(/T/,' ').replace(/Z/,' UTC'): '-'}
+     td #{game.endTime? game.endTime.toString().replace(/T/,' ').replace(/Z/,' UTC'): '-'}
+     if (show_unverified_games)
+      td <b>#{!game.endTime && game.missingRolesArray? game.missingRolesArray.join(", "): "-"}</b>
+     td #{game.mapRoleToFinalResult? JSON.stringify(game.mapRoleToFinalResult): '-'}
+ script(src='/javascripts/sound.js')
+ script(src='/socket.io/socket.io.js')
+ script(type='text/javascript').
+    var socket = io.connect();
+    socket.emit('WatchAllGamesOnServer', '#{gametype}');
+    $(document).ready(function() {
+      socket.on('newgame', function(newGameData) {
+        beep(/*type=*/1, /*millis=*/200);
+        //$("body").append("<div style='border-top:solid 1px black; margin-top: 1em'>"+JSON.stringify(newGameData)+"</div>");
+        var watchUrl = '/'+newGameData.gametype+'/watchgame/'+newGameData.gameid;
+        window.open(watchUrl, "_blank");
+        setTimeout("location.reload(true);", /*millis=*/200);
+      });
+    });

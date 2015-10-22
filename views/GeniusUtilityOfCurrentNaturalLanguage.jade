@@ -1,0 +1,31 @@
+// required variables: 
+//   agent.utility_space_object, of type genius.UtilitySpace
+//   turnLengthInSeconds
+
+extends layoutForUtilities
+block title
+		title Score table
+block body
+	if (!locals.agent)
+		p ERROR: no agent!
+	else
+		div.UtilityNaturalLanguage
+			p These are the issues and values you may offer. Each value gives you a certain score, shown in parentheses. Your goal is to reach an agreement with maximal score.
+				ul
+					for issue in agent.utility_space_object.issueByIndex
+						li Regarding <span class='issue'>#{issue.name}</span>, you may offer either&nbsp; 
+							br
+							each item, i in issue.valueByIndex
+								if ["Programmer","60,000 USD", "Without leased car", "10%", "10 hours", "Slow promotion track", "Fast promotion track"].indexOf(item.value) > -1
+									span.valuebold #{item.value}&nbsp;
+								else
+									span.value #{item.value}&nbsp;
+
+								span.score (#{sprintf(format,item.evaluation * issue.weight * agent.utility_space_object.weightmultiplyer)})
+								br
+							//	if i < Object.keys(issue.valueByIndex).length-1
+							//		span &nbsp; or &nbsp;
+							//	else if i == Object.keys(issue.valueByIndex).length-1
+							//		span &nbsp; or &nbsp;
+							|.
+				

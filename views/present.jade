@@ -1,0 +1,71 @@
+extends shared
+block content
+  .container
+      
+      h1 BIU AI lab gametype server - Main Page
+      h4
+          a(href='/users') Active users
+          div(style='background-color: #eee;')
+            h1 #{gametype.split("_")[0]} #{gametype.split("_")[1]} Lists
+            h4
+              a(href='/#{gametype}/listAllQuestionnaire') All Questionnaire
+            h4
+              a(href='/#{gametype}/listAllQuestionnaireInfo') All QuestionnaireInfo
+            h4
+              a(href='/#{gametype}/listAllGames') All Games
+            h4
+              a(href='/#{gametype}/listAllPlayers') All Players              
+            h4
+              a(href='/#{gametype}/listAllGameAction') All Games Actions              
+            h4
+              a(href='/#{gametype}/listAllFinalResults') All FinalResults 
+            h4
+              a(href='/#{gametype}/scoreReport2') All Score  
+            h4
+              a(href='/#{gametype}/listAllFinalAgreements') All Final Agreements    
+            h4
+              a(href='/#{gametype}/listactive') Active games              
+
+            hr
+            h2 Let's Play!
+            h4
+              | note: Open different links in different browsers, to make the server think they are different users.
+            h4
+              a(href='/#{gametype}/beginner') PLAY - A worker not from Amazon Turk
+            h4
+              a(href='/#{gametype}/demo') PLAY - Demo
+            h4
+              a(href='/#{gametype}/beginner?assignmentId=ASSIGNMENT_ID_NOT_AVAILABLE') PLAY - Amazon Turk Preview mode
+            h4
+              a(href='/#{gametype}/beginner?workerId=amazonworker123&hitId=hit123&assignmentId=assignment123&turkSubmitTo=sandbox') PLAY - Amazon Turk Live mode with a dummy worker
+            h4
+              a(href='/#{gametype}/advanced') PLAY - A worker not from Amazon Turk - jump directly to game
+            h4
+              a(href='/#{gametype}/advanced?workerId=amazonworker123&hitId=hit123&assignmentId=assignment123&turkSubmitTo=sandbox') PLAY - Amazon Turk Live mode - jump directly to game
+            each role in requiredRoles
+              h4
+                a(href='/#{gametype}/advanced/#{role}') PLAY - Jump directly to game as #{role}
+      
+      hr
+      footer
+        p © Company 2013
+    //
+       /container 
+    //
+       Le javascript
+          
+    //
+       Placed at the end of the document so the pages load faster 
+    script(src='../assets/js/jquery.js')
+    script(src='../assets/js/bootstrap-transition.js')
+    script(src='../assets/js/bootstrap-alert.js')
+    script(src='../assets/js/bootstrap-modal.js')
+    script(src='../assets/js/bootstrap-dropdown.js')
+    script(src='../assets/js/bootstrap-scrollspy.js')
+    script(src='../assets/js/bootstrap-tab.js')
+    script(src='../assets/js/bootstrap-tooltip.js')
+    script(src='../assets/js/bootstrap-popover.js')
+    script(src='../assets/js/bootstrap-button.js')
+    script(src='../assets/js/bootstrap-collapse.js')
+    script(src='../assets/js/bootstrap-carousel.js')
+    script(src='../assets/js/bootstrap-typeahead.js')

@@ -1,0 +1,56 @@
+extends shared
+
+block content
+ div.container
+   h1 Score Information (#{gametype})
+   br
+
+
+   h2 Final Result
+   div.scrol
+     table(class="table table-striped table-bordered")
+       tr
+         th Game Id
+         th Game Type
+         th Role
+         th Ended In
+         th Time From Start
+         th Turns From Start
+         th Utility Without Discount
+         th Utility With Discount
+         th payment
+         th workerid
+       - if (FinalResultList !== undefined)
+         each questionnaire in questionnaireList
+          each FinalResult in FinalResultList 
+           if (questionnaireList !== undefined)
+            if (questionnaire.RowKey == FinalResult.RowKey)
+             tr
+              td
+               a(href='/#{gametype},#{FinalResult.PartitionKey}/gameReport') #{FinalResult.PartitionKey}
+              td #{questionnaire.gametype}
+              td #{FinalResult.role}
+              td #{FinalResult.endedIn}
+              td #{FinalResult.timeFromStart}
+              td #{FinalResult.turnsFromStart}
+              td #{FinalResult.utilityWithoutDiscount}
+              td #{FinalResult.utilityWithDiscount}
+              td #{FinalResult.utilityWithDiscount/4}
+              td #{questionnaire.workerId}
+            else
+              tr
+              td
+               a(href='/#{gametype},#{FinalResult.PartitionKey}/gameReport') #{FinalResult.PartitionKey}
+              td #{questionnaire.gametype}
+              td 
+              td 
+              td 
+              td 
+              td 
+              td 
+              td 
+              td #{questionnaire.workerId}
+
+   br   
+
+  

@@ -1,0 +1,36 @@
+extends layoutForChat
+
+block roomScripts
+    script(src='/javascripts/RoomForNegoMenus.js')
+    script(src='/javascripts/IssueValueMenus.js')
+    script function bye() {  window.location = '!{next_action}'; }
+
+block previewNotes 
+   
+block mainGui
+    if (agent)
+     div.mainSection <!-- row #3: explanations to the user; possible values and utils -->
+       div Use the menus below to select your offer.
+        ul
+        li You play the role of the <b>#{role}</b>.
+        li The negotiation relates to several <b>issues</b>. For each issue, there are several possible <b>values</b>.
+        li Your score depends on the <b>values</b> in the final agreement, and on <b>time</b>. Click "Your scores" for details.
+       
+        li Use the menus below as a draft. Your partner cannot see them - you communicate with the buttons below ("send offer", "accept" and "reject"). 
+        li To sign on an agreement, you MUST click on the same values as your partner. <b>As you click on the same one, it turns green.</b> (Note that “Sign the agreement” is greyed out)
+        li Once <b>ALL</b> values are green (you have agreement), then the “Sign the agreement button” can be pressed. 
+
+        li This draft is <b>not binding</b> until both of you sign it.
+        input#typegame(type="hidden")
+       div &nbsp;  
+       include GeniusMenus
+       div
+        button(id='sendOffer') Send Offer
+        | -- or reply to recent partner's offer:
+        button(id='Accept') Accept
+        button(id='Reject') Reject
+       div
+        button(id='signAgreement',disabled='disabled',title="The sign button is enabled only when your draft is consistent with your partner's draft on all issues") Sign the agreement
+    
+
+      

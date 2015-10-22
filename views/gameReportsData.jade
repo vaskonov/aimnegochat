@@ -1,0 +1,102 @@
+extends shared
+
+block content
+  br 
+  br
+  div.container
+    
+   h1 Game #{gameid} (#{gametype.split('_')[1]})
+   br
+   h2 User Info
+   div.scrol
+     table(class="table table-striped table-bordered")
+       tr
+         th User Id
+         th Type
+         th Role
+         th link to scores
+       - if (playerList !== undefined)
+         each player in playerList 
+          tr
+            td 
+              a(href='/#{gametype},#{player.RowKey}/playerReport') #{player.RowKey}
+            td #{player.type}
+            td #{player.role}
+            td
+              a(href ='/#{gametype},#{player.RowKey}/scoreReport') score And Worker
+   br
+
+   h2 Game Action List
+   div.scrol
+     table(class="table table-striped table-bordered")
+       tr
+         th Action's Number
+         th game type
+         th Action
+         th Remaining Time
+         th Role
+         th User Id
+         th Issue
+         th Value
+       - if (GameActionList !== undefined) 
+         each GameAction in GameActionList
+           if (GameAction.role == "Employer")
+            tr.employer
+              td #{GameAction.RowKey}
+              td #{GameAction.gameType}
+              td #{GameAction.action} 
+              td #{GameAction.remainingTime}
+              td #{GameAction.role}
+              td #{GameAction.userid}
+              td #{GameAction.issue}
+              td #{GameAction.value}
+           else
+            tr
+              td #{GameAction.RowKey}
+              td #{GameAction.gameType}
+              td #{GameAction.action}
+              td #{GameAction.remainingTime}
+              td #{GameAction.role}
+              td #{GameAction.userid}
+              td #{GameAction.issue}
+              td #{GameAction.value}   
+
+            
+   br
+   div.final 
+      h2 Final Result 
+      div.scrol
+       table(class="table table-striped table-bordered")
+           tr
+             th Role
+             th Ended In
+             th Time From Start
+             th Turns From Start
+             th Utility Without Discount
+             th Utility With Discount
+           - if (FinalResultList !== undefined) 
+             each FinalResult in FinalResultList
+              tr
+                td #{FinalResult.role}
+                td #{FinalResult.endedIn}
+                td #{FinalResult.timeFromStart}
+                td #{FinalResult.turnsFromStart}
+                td #{FinalResult.utilityWithoutDiscount}
+                td #{FinalResult.utilityWithDiscount}       
+
+   
+   div
+     h2 Agreement 
+     div.scrol
+         table(class="table table-striped table-bordered")
+           tr
+             th Issue
+             th Value
+
+           - if (FinalAgreementList !== undefined) 
+             each FinalResult in FinalAgreementList
+              tr 
+                  td #{FinalResult.issue}
+                  td #{FinalResult.value}
+    div
+      a.downlaod(href= "/#{gametype},#{gameid}/downlaodAction") downlaod Action

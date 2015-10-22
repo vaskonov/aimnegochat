@@ -1,0 +1,30 @@
+//- required variables: 
+//-   agent.utility_space_object, of type genius.UtilitySpace
+p#announcement(style="display: none", onClick="hide_popup()") REMEMBER: the other player DOES NOT know what you do in the menus You must write whatever you want to offer in the chat
+table#chosenOfferTable
+   thead
+    tr
+     th.left Issue
+     //th.left #{role} draft
+     th.left Agreement draft
+    for issue in agent.utility_space_object.issueByIndex
+     tr
+      td(id="#{issue.name.replace(/[^a-z]/gi,'_')}_label",title="This issue is green when your draft on this issue is consistent with your partner's draft") #{issue.name}: &nbsp; 
+      td
+       select.issue(title="#{issue.name}")
+        option(value="") -- select --
+        for value in issue.values
+         option(value="#{value}") #{value}
+        //- option(value="DummyValue") DummyValue
+    //- tr
+     td(id="Dummy",title="This is a dummy issue") Dummy 
+     td
+      select.issue(title="Dummy")
+       option(value="") -- select --
+       option(value="123") 123
+    tr
+     td <b>Total score:</b>
+     td#utility 0
+    tr
+     td#signatures(colspan="2")
+

@@ -1,0 +1,9 @@
+*.bk
+gamescores.json
+questionnaires.json
+./questionnaires.json
+/real.json
+/test.json
+/node_modules
+/logs
+/domains
